@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -13,18 +15,19 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/users/login", form);
+      const res = await axios.post(`${BASE_URL}/api/users/login`, form);
       localStorage.setItem("user", JSON.stringify(res.data));
       navigate("/dashboard");
     } catch (err) {
-      alert("Login failed");
+      console.error("❌ Login error:", err);
+      alert("❌ Login failed");
     }
   };
 
   return (
     <div
       className="min-h-screen bg-cover bg-center flex items-center justify-center"
-      style={{ backgroundImage: `url('/images/login.jpg')` }} // 👉 Add your image here
+      style={{ backgroundImage: `url('/images/login.jpg')` }}
     >
       <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>

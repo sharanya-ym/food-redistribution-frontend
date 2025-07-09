@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 function Register() {
   const [form, setForm] = useState({
     name: "",
@@ -17,10 +19,11 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/users/register", form);
+      await axios.post(`${BASE_URL}/api/users/register`, form);
       alert("✅ Registration successful");
       navigate("/login");
     } catch (err) {
+      console.error("❌ Registration error:", err);
       alert("❌ Registration failed");
     }
   };
